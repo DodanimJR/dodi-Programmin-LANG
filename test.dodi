@@ -1,11 +1,6 @@
-algoritmo principal
-    inicio
-        entero a, b
-        a = 10
-        b = 20
-        si a > 5 y b < 30 entonces
-            escribir("a es mayor que 5 y b es menor que 30")
-        sino
-            escribir("Alguna condicion no se cumple")
-        finsi
-    fin
+algoritmo hola
+principal
+inicio
+    escribir("Hola Mundo")
+    a = 5 - 2
+fin

@@ -1,20 +1,9 @@
-algoritmo principal
+algoritmo dodi principal 
     inicio
-        entero a, b
         a = 10
         b = 20
-        si a > 5 y b < 30 entonces
+        si ( a > 5 ) and ( b < 30 ) entonces
             escribir("a es mayor que 5 y b es menor que 30")
-        sino
-            escribir("Alguna condicion no se cumple")
-        finsi
-
-        booleano c, d
-        c = verdadero
-        d = falso
-
-        si c or d entonces
-            escribir("c es verdadero o d es falso")
         sino
             escribir("Alguna condicion no se cumple")
         finsi
