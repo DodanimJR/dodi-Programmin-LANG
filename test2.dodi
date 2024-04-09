@@ -13,7 +13,7 @@ algoritmo principal
         c = verdadero
         d = falso
 
-        si c o d entonces
+        si c or d entonces
             escribir("c es verdadero o d es falso")
         sino
             escribir("Alguna condicion no se cumple")

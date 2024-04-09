@@ -10,35 +10,40 @@ codigoEntrada = f.read()
 import ply.lex as lex
 
 # Lista de tokens de palabras reservadas.
-reservadas = { 'algoritmo' : 'ALGORITMO',
-                'principal' : 'PRINCIPAL',
-                'inicio' : 'INICIO',
-                'entero' : 'ENTERO',
-                'escribir' : 'ESCRIBIR',
-                'leer' : 'LEER',
-                'fin' : 'FIN',
-                'si' : 'SI',
-                'sino' : 'SINO',
-                'finsi' : 'FINSI',
-                'entonces' : 'ENTONCES',
-                'para' : 'PARA',
-                'hasta' : 'HASTA',
-                'incremento' : 'INC',
-                'finpara' : 'FINPARA',
-                'mientras' : 'MIENTRAS',
-                'hacer' : 'HACER',
-                'finmientras' : 'FINMIENTRAS',
-                'entero' : 'ENTERO',
-                'real' : 'REAL', 
-                'caracter' : 'CARACTER',
-                'cadena' : 'CADENA',
-                'no' : 'NO',
-                'y' : 'OPLY',
-                'o' : 'OPLO'
-               }
+reservadas = {
+    'algoritmo': 'ALGORITMO',
+    'principal': 'PRINCIPAL',
+    'inicio': 'INICIO',
+    'entero': 'ENTERO',
+    'escribir': 'ESCRIBIR',
+    'leer': 'LEER',
+    'fin': 'FIN',
+    'si': 'SI',
+    'sino': 'SINO',
+    'finsi': 'FINSI',
+    'entonces': 'ENTONCES',
+    'para': 'PARA',
+    'hasta': 'HASTA',
+    'incremento': 'INC',
+    'finpara': 'FINPARA',
+    'mientras': 'MIENTRAS',
+    'hacer': 'HACER',
+    'finmientras': 'FINMIENTRAS',
+    'entero': 'ENTERO',
+    'real': 'REAL',
+    'caracter': 'CARACTER',
+    'cadena': 'CADENA',
+    'not': 'OPNOT',
+    'and': 'OPAND',
+    'or': 'OPOR',
+    'xor': 'OPXOR',
+    'verdadero': 'VERDADERO',
+    'falso': 'FALSO',
+    'booleano': 'BOOLEANO'
+}
 
-# Tokens de un solo caracter. 
-literals = ['(', ')', ',', ':','<', '>', '=', '+', '-' , '*', '/', '%']
+# Tokens de un solo caracter.
+literals = ['(', ')', ',', ':', '<', '>', '=', '+', '-', '*', '/', '%']
 
 # Tokens con expresiones regulares.
 t_CADENALITERAL = r'\"[a-zA-Z 0-9:-_.!*/+\-\#%&@?¿]+\"'
@@ -49,9 +54,9 @@ t_DIFERENTE = r'<>'
 t_MENORIGUAL = r'<='
 t_IGUAL = r'=='
 
-
 # Tokens booleanos.
-tokens = ['CADENALITERAL', 'ID', 'NUMEROENTERO', 'NUMEROREAL','MAYORIGUAL', 'DIFERENTE', 'MENORIGUAL', 'IGUAL','COMENTARIO', 'VERDADERO', 'FALSO', 'AND', 'OR', 'NOT'] + list(reservadas.values())
+tokens = ['CADENALITERAL', 'ID', 'NUMEROENTERO', 'NUMEROREAL', 'MAYORIGUAL', 'DIFERENTE', 'MENORIGUAL', 'IGUAL',
+          'COMENTARIO'] + list(reservadas.values())
 
 # tokens como funciones.
 def t_ID(t):
@@ -70,11 +75,6 @@ def t_NUMEROENTERO(t):
     r'[+-]?[0-9]+'
     t.value = t.value
     return t
-
-# Tokens booleanos.
-t_AND = r'y'
-t_OR = r'o'
-t_NOT = r'no'
 
 # Especiales requeridos por Ply.
 def t_newline(t):
