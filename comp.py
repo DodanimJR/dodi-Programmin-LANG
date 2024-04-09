@@ -1,4 +1,4 @@
-f = open(r'./test.dodi', 'r')
+f = open(r'./test2.dodi', 'r')
 codigoEntrada = f.read()
 
 #############################################
@@ -32,8 +32,6 @@ reservadas = { 'algoritmo' : 'ALGORITMO',
                 'real' : 'REAL', 
                 'caracter' : 'CARACTER',
                 'cadena' : 'CADENA',
-                'verdadero' : 'VERDADERO',
-                'falso' : 'FALSO',
                 'no' : 'NO',
                 'y' : 'OPLY',
                 'o' : 'OPLO'
@@ -50,6 +48,7 @@ t_MAYORIGUAL = r'>='
 t_DIFERENTE = r'<>'
 t_MENORIGUAL = r'<='
 t_IGUAL = r'=='
+
 
 # Tokens booleanos.
 tokens = ['CADENALITERAL', 'ID', 'NUMEROENTERO', 'NUMEROREAL','MAYORIGUAL', 'DIFERENTE', 'MENORIGUAL', 'IGUAL','COMENTARIO', 'VERDADERO', 'FALSO', 'AND', 'OR', 'NOT'] + list(reservadas.values())
