@@ -1,0 +1,8 @@
+algoritmo prueba1 principal
+inicio
+    a = 5
+    b = 3
+    c = a + b * 2
+    escribir("El resultado es: ")
+    escribir(c)
+fin

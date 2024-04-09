@@ -6,7 +6,6 @@ algoritmo dodi principal
         escribir( 1 + 2 )
         si ( a > 5 ) and ( b < 30 ) entonces
             escribir("a es mayor que 5 y b es menor que 30")
-            escribir( a )
         sino
             escribir("Alguna condicion no se cumple")
         finsi

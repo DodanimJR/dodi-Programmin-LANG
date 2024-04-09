@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 import ast
 
-f = open(r'./test2.dodi', 'r')
+f = open(r'./test3.dodi', 'r')
 codigoEntrada = f.read()
 result = open(r'./result.log', 'w')
 
@@ -19,7 +19,6 @@ reservadas = {
     'algoritmo': 'ALGORITMO',
     'principal': 'PRINCIPAL',
     'inicio': 'INICIO',
-    'entero': 'ENTERO',
     'escribir': 'ESCRIBIR',
     'leer': 'LEER',
     'fin': 'FIN',
@@ -34,17 +33,12 @@ reservadas = {
     'mientras': 'MIENTRAS',
     'hacer': 'HACER',
     'finmientras': 'FINMIENTRAS',
-    'entero': 'ENTERO',
-    'real': 'REAL',
-    'caracter': 'CARACTER',
-    'cadena': 'CADENA',
     'not': 'OPNOT',
     'and': 'OPAND',
     'or': 'OPOR',
     'xor': 'OPXOR',
     'verdadero': 'VERDADERO',
     'falso': 'FALSO',
-    'booleano': 'BOOLEANO'
 }
 
 # Tokens de un solo caracter.
@@ -118,19 +112,16 @@ def p_A(p):
 
 def p_instrucciones(p):
     ''' instrucciones : instruccion instrucciones'''
+    
 
 def p_instrucciones_1(p):
     ''' instrucciones :  '''
+    p[0] = ''
 
 def p_asig(p):
     ''' asignacion : ID "=" operacion  '''
-    print("asginacion corriendo")
-    for i in p:
-        print(i)
-    p[0] = p[3]
     variables[p[1]] = p[3]
-    print(variables)
-    print(p[0], 'asignado')
+
 
 def p_operacion(p):
     '''operacion :
@@ -145,14 +136,7 @@ def p_operacion(p):
                  | operacion '<' operacion
                  | operacion '>' operacion
                  | '(' operacion ')' '''
-    print("operacion corriendo")
-    x=0
-    for i in p:
-        print(x)
-        print(i)
-        x+=1
-        
-        
+    
     p[1] = int(p[1])
     p[3] = int(p[3])   
     if p[2] == '+':
@@ -196,52 +180,21 @@ def p_operacion1(p):
     
 
 def p_instruccion(p):
-   ''' instruccion : declaracion
+   ''' instruccion :
+                    | operacion
                     | asignacion
                     | mientras
                     | si
                     | para
                     | lectura
                     | escritura '''
+   p[0] = p[1]
 
 def p_numero(p):
     ''' numero : NUMEROENTERO
                | NUMEROREAL '''
+    p[0] = p[1]
 
-
-def p_declaracion(p):
-    ''' declaracion : tipo defineTipo ":" ID listaVar '''
-
-def p_declaracion3(p):
-    ' declaracion : tipo defineTipo ":" ID "=" operacion listaVar '
-
-def p_defineTipo(p):
-    ' defineTipo : '
-
-def p_lista3(p):
-    ''' listaVar : "," ID  listaVar'''
-
-def p_lista1(p):
-    ' listaVar : '
-    
-# Produccion de una lista de variables
-def p_lista5(p):
-    ''' listaVar : "," ID "=" operacion listaVar '''
-
-def p_tipo(p):
-    ''' tipo : ENTERO '''
-
-def p_tipoChar(p):
-    ' tipo : CARACTER '
-    
-def p_tipoFloat(p):
-    ' tipo : REAL '
-    
-def p_tipoCharPtr(p):
-    ' tipo : CADENA '
-
-def p_tipoBool(p):
-    ' tipo : BOOLEANO '
 
 def p_operacionLogica(p):
     '''operacionLogica : operacion
@@ -250,6 +203,7 @@ def p_operacionLogica(p):
                     | operacionLogica OPXOR operacion
                     | OPNOT operacion
                     | '(' operacionLogica ')' '''
+    p[0] = p[1]
 
 def p_comparacion1(p):
     ' comparacion : operando '
@@ -276,6 +230,7 @@ def p_escritura(p):
     ''' escritura : ESCRIBIR "(" CADENALITERAL ")"
                     | ESCRIBIR "(" operacion ")"
     '''
+    p[0] = p[3]
     resultado = p[3]
     salidas_escribir.append(resultado)
 
@@ -291,9 +246,11 @@ def p_esi(p):
 
 def p_sino1(p):
     ' sino : '
+    p[0] = ''
 
 def p_sino2(p):
     ' sino : SINO instrucciones ' 
+    p[0] = p[2]
 
 def p_mientras(p):
     ' mientras : MIENTRAS "(" operacionLogica ")" HACER instrucciones FINMIENTRAS '
@@ -319,8 +276,7 @@ def p_error(p):
 def escribir_log(salidas):
     with open('result.log', 'a') as log_file:  # Abrir el archivo en modo 'a' (append)
         # Escribimos las salidas de los comandos 'escribir'
-        if(salidas[0] != None):
-            log_file.write("Salidas de los comandos 'escribir':\n")
+        if(len(salidas) > 0):
             for salida in salidas:
                 log_file.write(str(salida) + '\n')
 
