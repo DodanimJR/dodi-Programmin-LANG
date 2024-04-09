@@ -1,17 +1,10 @@
 import ply.lex as lex
 import ply.yacc as yacc
-import ast
+
 
 f = open(r'./test3.dodi', 'r')
 codigoEntrada = f.read()
 result = open(r'./result.log', 'w')
-
-#############################################
-#                                           #
-#   Implementación de analizador léxico.    #
-#                                           #
-#############################################
-
 
 
 # Lista de tokens de palabras reservadas.
