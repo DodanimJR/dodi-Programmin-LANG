@@ -111,6 +111,7 @@ precedence = (
     ('right', 'UMENOS'),  # Para el operador unario -
 )
 
+variables = {}
 # Definición de la gramática.
 def p_A(p):
     ''' A : ALGORITMO ID PRINCIPAL INICIO instrucciones FIN '''
@@ -123,6 +124,13 @@ def p_instrucciones_1(p):
 
 def p_asig(p):
     ''' asignacion : ID "=" operacion  '''
+    print("asginacion corriendo")
+    for i in p:
+        print(i)
+    p[0] = p[3]
+    variables[p[1]] = p[3]
+    print(variables)
+    print(p[0], 'asignado')
 
 def p_operacion(p):
     '''operacion :
@@ -137,20 +145,54 @@ def p_operacion(p):
                  | operacion '<' operacion
                  | operacion '>' operacion
                  | '(' operacion ')' '''
+    print("operacion corriendo")
+    x=0
+    for i in p:
+        print(x)
+        print(i)
+        x+=1
+        
+        
+    p[1] = int(p[1])
+    p[3] = int(p[3])   
+    if p[2] == '+':
+        p[0] = p[1] + p[3]
+    elif p[2] == '-':
+        p[0] = p[1] - p[3]
+    elif p[2] == '*':
+        p[0] = p[1] * p[3]
+    elif p[2] == '/':
+        p[0] = p[1] / p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '==':
+        p[0] = p[1] == p[3]
+    elif p[2] == '<>':
+        p[0] = p[1] != p[3]
+    elif p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+
+    
 
     
 
 def p_operacion2(p):
     ' operacion : "-" operacion %prec UMENOS '
+    p[0] = p[1] + p[2]
     
 
 def p_operacionID(p):
     ' operacion :  ID '
+    p[0] = variables.get(p[1], None)
 
 def p_operacion1(p):
-    ''' operacion : numero
-                  | CADENALITERAL
-                  | CARACTER '''
+    ''' operacion : NUMEROENTERO
+    '''
+    p[0] = p[1]
     
 
 def p_instruccion(p):
@@ -233,7 +275,6 @@ def p_lectura(p):
 def p_escritura(p):
     ''' escritura : ESCRIBIR "(" CADENALITERAL ")"
                     | ESCRIBIR "(" operacion ")"
-                    | ESCRIBIR "(" ID ")" 
     '''
     resultado = p[3]
     salidas_escribir.append(resultado)
@@ -281,7 +322,7 @@ def escribir_log(salidas):
         if(salidas[0] != None):
             log_file.write("Salidas de los comandos 'escribir':\n")
             for salida in salidas:
-                log_file.write(salida + '\n')
+                log_file.write(str(salida) + '\n')
 
 # Construir el parser
 yacc.yacc()

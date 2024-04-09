@@ -2,6 +2,8 @@ algoritmo dodi principal
     inicio
         a = 10
         b = 20
+        c = 1 + 2
+        escribir( 1 + 2 )
         si ( a > 5 ) and ( b < 30 ) entonces
             escribir("a es mayor que 5 y b es menor que 30")
             escribir( a )
