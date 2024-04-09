@@ -1,8 +1,10 @@
 import ply.lex as lex
 import ply.yacc as yacc
+import ast
 
 f = open(r'./test2.dodi', 'r')
 codigoEntrada = f.read()
+result = open(r'./result.log', 'w')
 
 #############################################
 #                                           #
@@ -56,6 +58,8 @@ t_MAYORIGUAL = r'>='
 t_DIFERENTE = r'<>'
 t_MENORIGUAL = r'<='
 t_IGUAL = r'=='
+# Lista de salidas de los comandos 'escribir'
+salidas_escribir = []
 
 # Tokens booleanos.
 tokens = ['CADENALITERAL', 'ID', 'NUMEROENTERO', 'NUMEROREAL', 'MAYORIGUAL', 'DIFERENTE', 'MENORIGUAL', 'IGUAL',
@@ -133,6 +137,8 @@ def p_operacion(p):
                  | operacion '<' operacion
                  | operacion '>' operacion
                  | '(' operacion ')' '''
+
+    
 
 def p_operacion2(p):
     ' operacion : "-" operacion %prec UMENOS '
@@ -225,28 +231,14 @@ def p_lectura(p):
     ''' lectura : LEER "(" ID ")" '''
     
 def p_escritura(p):
-    ''' escritura : ESCRIBIR "(" listaSalida ")" '''
-
-def p_listaSalida(p):
-    ''' listaSalida : listaSalida "," salida
-                    | salida'''
-
-def p_salida(p):
-    ' salida : ID '
-
-def p_salida2(p):
-    ' salida : numero '
-
-def p_salida3(p):
-    ' salida :  '
+    ''' escritura : ESCRIBIR "(" CADENALITERAL ")"
+                    | ESCRIBIR "(" operacion ")"
+                    | ESCRIBIR "(" ID ")" 
+    '''
+    resultado = p[3]
+    salidas_escribir.append(resultado)
 
 
-def p_salida4(p):
-    ' salida : CADENA '
-
-
-def p_salida5(p):
-    ' salida : CADENALITERAL '
     
 def p_esi(p):
     '''si : SI "(" operacionLogica ")" ENTONCES instrucciones sino FINSI
@@ -281,6 +273,20 @@ def p_error(p):
     else:
         print("Error sintáctico, al final.")
 
+
+# Función para escribir las salidas en el archivo .log
+def escribir_log(salidas):
+    with open('result.log', 'a') as log_file:  # Abrir el archivo en modo 'a' (append)
+        # Escribimos las salidas de los comandos 'escribir'
+        if(salidas[0] != None):
+            log_file.write("Salidas de los comandos 'escribir':\n")
+            for salida in salidas:
+                log_file.write(salida + '\n')
+
 # Construir el parser
 yacc.yacc()
 yacc.parse(codigoEntrada)
+
+escribir_log(salidas_escribir)
+f.close()
+result.close()
